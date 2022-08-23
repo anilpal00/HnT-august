@@ -1,0 +1,5 @@
+package com.hnt.orderService.controller;
+
+public class UserController {
+
+}
