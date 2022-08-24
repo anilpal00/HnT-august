@@ -10,9 +10,11 @@ import com.hnt.orderService.repository.UserRepository;
 public class UserService {
 	
 	@Autowired
-	UserRepository userRepository;
-	
+	UserRepository repository;
 	public void save(User user) {
-		userRepository.save(user);
+		repository.save(user);
+	}
+	public Iterable<User> getUser() {
+		return repository.findAll();
 	}
 }

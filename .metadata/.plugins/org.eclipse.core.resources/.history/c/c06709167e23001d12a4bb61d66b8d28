@@ -1,0 +1,5 @@
+package com.hnt.orderService;
+
+public class RestClient {
+
+}
