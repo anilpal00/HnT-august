@@ -13,6 +13,10 @@ public class UserService {
 	UserRepository repository;
 	public void save(User user) {
 		repository.save(user);
+		if (user.getName().equals("Ram"))
+			throw new IllegalArgumentException("message");
+		else
+			repository.save(user);
 	}
 	public Iterable<User> getUser() {
 		return repository.findAll();

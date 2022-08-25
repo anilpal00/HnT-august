@@ -1,5 +1,0 @@
-package com.hnt.orderService.repository;
-
-public class UserRepository {
-
-}

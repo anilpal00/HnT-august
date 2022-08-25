@@ -1,7 +1,0 @@
-package com.hnt.orderService.repository;
-
-import org.springframework.data.repository.core.support.DefaultCrudMethods;
-
-public interface UserRepository  {
-
-}

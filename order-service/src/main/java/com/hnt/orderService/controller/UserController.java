@@ -1,15 +1,12 @@
 package com.hnt.orderService.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.http.ResponseEntity;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,7 +23,7 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @Slf4j
 @RequestMapping("/user")
-public class UserController {
+public class UserController extends BaseController {
 
 	@Autowired
 	UserService userService;
@@ -38,11 +35,17 @@ public class UserController {
 
 	@PostMapping("/age/{age}/height/{height}") // base path
 	@ResponseStatus(code = HttpStatus.CREATED)
-	Integer saveUser(@Valid @RequestBody User user, @PathVariable("age") int age, @PathVariable("height") float height) {
+	ResponseEntity saveUser(@Valid @RequestBody User user, @PathVariable("age") int age, @PathVariable("height") float height) {
 		userService.save(user);
 		System.out.println(height);
 		System.out.println(age);
-		return user.getId();
+		//return user.getId();
+
+		MultiValueMap headers = new LinkedMultiValueMap<String, String>();
+		headers.add("headerfromserver", "success");
+		ResponseEntity responseEntity = new ResponseEntity(headers , HttpStatus.CREATED);
+		return responseEntity;
+		
 	}
 
 	@PostMapping
@@ -50,16 +53,5 @@ public class UserController {
 		userService.save(user);
 		System.out.println("second");
 		return user.getId();
-	}
-
-	@ExceptionHandler(MethodArgumentNotValidException.class)
-	Map<String, String> handleException(MethodArgumentNotValidException ex) {
-		Map<String, String> errors = new HashMap();
-		ex.getBindingResult().getAllErrors().forEach((error) -> {
-			String fieldname = ((FieldError) error).getField();
-			String message = ((FieldError) error).getDefaultMessage();
-			errors.put(fieldname, message);
-		});
-		return errors;
 	}
 }
