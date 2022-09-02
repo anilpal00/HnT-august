@@ -7,6 +7,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,6 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @Slf4j
+@CrossOrigin
 @RequestMapping("/user")
 public class UserController extends BaseController {
 
@@ -39,13 +42,12 @@ public class UserController extends BaseController {
 		userService.save(user);
 		System.out.println(height);
 		System.out.println(age);
-		//return user.getId();
-
+		
 		MultiValueMap headers = new LinkedMultiValueMap<String, String>();
 		headers.add("headerfromserver", "success");
-		ResponseEntity responseEntity = new ResponseEntity(headers , HttpStatus.CREATED);
-		return responseEntity;
+		ResponseEntity responseEntity = new ResponseEntity(user,headers , HttpStatus.CREATED);
 		
+		return responseEntity;
 	}
 
 	@PostMapping
@@ -53,5 +55,10 @@ public class UserController extends BaseController {
 		userService.save(user);
 		System.out.println("second");
 		return user.getId();
+	}
+	
+	@DeleteMapping("/{userid}")
+	void deleteUser(@PathVariable int userid) {
+		userService.delete(userid);	
 	}
 }

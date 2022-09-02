@@ -26,6 +26,7 @@ class UserControllerTest {
 	void testSaveUser1() {
 		User user = new User();
 		user.setId(1);
+		user.setName("John");
 		when(service.save(user)).thenReturn(user);
 		Integer savedUserId = controller.saveUser1(user);
 		assertEquals(1, savedUserId);
